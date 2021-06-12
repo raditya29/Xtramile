@@ -32,11 +32,11 @@ namespace Xtramile.Calendar.Web.Controllers
                 var endDate = model.ToDate;
                 int[] yearsRange = Enumerable.Range(fromDate.Year, (endDate.Year - fromDate.Year + 1)).ToArray(); // years included in date range
                 var publicHolidays = yearsRange.SelectMany(year => holidaysFactory.GenerateHolidaysFor(year))
-                                        .Where(holiday => fromDate < holiday.ActualDate && holiday.ActualDate < endDate); // public holidays in between time range
+                                        .Where(holiday => fromDate < holiday.Date && holiday.Date < endDate); // public holidays in between time range
                 // act
                 int businessDays = fromDate.RemainingBusinessDays(endDate, publicHolidays);
                 // return
-                return new { businessDays, publicHolidays = publicHolidays.Select(day => day.ActualDate.ToShortDateString()) };
+                return new { businessDays, publicHolidays = publicHolidays.Select(day => day.Date.ToShortDateString()) };
             }
 
             return BadRequest();
