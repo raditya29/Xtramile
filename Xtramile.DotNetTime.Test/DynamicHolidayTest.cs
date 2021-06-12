@@ -14,7 +14,7 @@ namespace Xtramile.DotNetTime.Test
         {
             var originalDate = new DateTime(year, month, day);
 
-            Assert.Equal(new DateTime(actualYear, actualMonth, actualDay), new AlwaysSameDayHoliday(originalDate).ActualDate);
+            Assert.Equal(new DateTime(actualYear, actualMonth, actualDay), new AlwaysSameDayHoliday(originalDate).Date);
         }
 
         [Theory]
@@ -26,7 +26,7 @@ namespace Xtramile.DotNetTime.Test
         {
             var originalDate = new DateTime(year, month, day);
 
-            Assert.Equal(new DateTime(actualYear, actualMonth, actualDay), new SameDayIfNotWeekendHoliday(originalDate).ActualDate);
+            Assert.Equal(new DateTime(actualYear, actualMonth, actualDay), new SameDayIfNotWeekendHoliday(originalDate).Date);
         }
 
         [Theory]
@@ -36,7 +36,7 @@ namespace Xtramile.DotNetTime.Test
             int actualDay, int actualMonth, int actualYear)
         {
             Assert.Equal(new DateTime(actualYear, actualMonth, actualDay),
-                new CertainDayInMonthHoliday((DayOfWeek)dayOfWeek, occurence, month).ActualDate);
+                new CertainDayInMonthHoliday((DayOfWeek)dayOfWeek, occurence, month).Date);
         }
     }
 }

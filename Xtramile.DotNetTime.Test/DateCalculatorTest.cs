@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Xtramile.DotNetTime.Test
 {
-    public class CalculatorTest
+    public class DateCalculatorTest
     {
         [Theory]
         [InlineData(11, 6, 2021, 14, 6, 2021)]
@@ -52,10 +52,10 @@ namespace Xtramile.DotNetTime.Test
         }
 
         [Theory]
-        [ClassData(typeof(RemainingBusinessDaysTestData))]
+        [ClassData(typeof(FixedHolidaysTestData))]
         public void RemainingBusinessDays_Substract_FixedHoliday_Return_Correct_Result(short fromDay, short fromMonth, short fromYear,
             short endDay, short endMonth, short endYear,
-            int expectedCount, DateTime[] fixedPublicHolidays)
+            int expectedCount, IHoliday[] fixedPublicHolidays)
         {
             var fromDate = new DateTime(fromYear, fromMonth, fromDay);
             var endDate = new DateTime(endYear, endMonth, endDay);
@@ -87,10 +87,10 @@ namespace Xtramile.DotNetTime.Test
         }
     }
 
-    internal class RemainingBusinessDaysTestData : IEnumerable<object[]>
+    internal class FixedHolidaysTestData : IEnumerable<object[]>
     {
-        private static DateTime[] fixedPublicHolidays = new DateTime[] {
-            new DateTime(2014, 7, 17), new DateTime(2014, 8, 6), new DateTime(2014, 8, 15)
+        private static IHoliday[] fixedPublicHolidays = new IHoliday[] {
+            new AlwaysSameDayHoliday(new DateTime(2014, 7, 17)), new AlwaysSameDayHoliday(new DateTime(2014, 8, 6)), new  AlwaysSameDayHoliday(new DateTime (2014, 8, 15))
         };
 
         public IEnumerator<object[]> GetEnumerator()
