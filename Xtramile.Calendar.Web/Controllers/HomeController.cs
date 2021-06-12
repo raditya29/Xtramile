@@ -24,7 +24,7 @@ namespace Xtramile.Calendar.Web.Controllers
             return View(new DateRangeViewModel { FromDate = DateTime.Now, ToDate = DateTime.Now.NextWeekDay() });
         }
 
-        // POST: DateRangeCalculator/Create
+        // POST: Home/Calculate
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -38,7 +38,7 @@ namespace Xtramile.Calendar.Web.Controllers
                 var endDate = model.ToDate;
                 int[] yearsRange = Enumerable.Range(fromDate.Year, (endDate.Year - fromDate.Year + 1)).ToArray(); // years included in date range
                 var publicHolidays = yearsRange.SelectMany(year => holidaysFactory.GenerateHolidaysFor(year))
-                                        .Where(holiday => fromDate < holiday.ActualDate && holiday.ActualDate < endDate);
+                                        .Where(holiday => fromDate < holiday.ActualDate && holiday.ActualDate < endDate); // public holidays in between time range
                 // act
                 int businessDays = fromDate.RemainingBusinessDays(endDate, publicHolidays);
                 // return
