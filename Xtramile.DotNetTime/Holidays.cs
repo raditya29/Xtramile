@@ -2,31 +2,31 @@
 
 namespace Xtramile.DotNetTime
 {
-    public interface IDynamicHoliday
+    public interface IHoliday
     {
-        public DateTime ActualDate { get; }
+        public DateTime Date { get; }
     }
 
-    public struct AlwaysSameDayHoliday : IDynamicHoliday
+    public struct AlwaysSameDayHoliday : IHoliday
     {
         private readonly DateTime originalDateTime;
 
         public AlwaysSameDayHoliday(DateTime originalDateTime) => this.originalDateTime = originalDateTime;
 
-        public DateTime ActualDate => originalDateTime;
+        public DateTime Date => originalDateTime;
     }
 
-    public struct SameDayIfNotWeekendHoliday : IDynamicHoliday
+    public struct SameDayIfNotWeekendHoliday : IHoliday
     {
         private readonly DateTime originalDateTime;
 
         public SameDayIfNotWeekendHoliday(DateTime originalDateTime) => this.originalDateTime = originalDateTime;
 
-        public DateTime ActualDate => 
+        public DateTime Date => 
             (DateCalculator.IsWeekDay(originalDateTime.DayOfWeek)) ? originalDateTime : originalDateTime.NextWeekDay();
     }
 
-    public struct CertainDayInMonthHoliday : IDynamicHoliday
+    public struct CertainDayInMonthHoliday : IHoliday
     {
         private readonly DateTime calculatedDate;
 
@@ -42,6 +42,6 @@ namespace Xtramile.DotNetTime
             calculatedDate = new DateTime(firstDayOfMonth.Year, firstDayOfMonth.Month, firstOccurenceDay + (occurence - 1) * 7);
         }
 
-        public DateTime ActualDate => calculatedDate;
+        public DateTime Date => calculatedDate;
     }
 }

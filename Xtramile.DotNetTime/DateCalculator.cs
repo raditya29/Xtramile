@@ -49,33 +49,14 @@ namespace Xtramile.DotNetTime
         /// <param name="endDate"></param>
         /// <param name="publicHolidays"></param>
         /// <returns></returns>
-        public static int RemainingBusinessDays(this DateTime fromDate, DateTime endDate, DateTime[] publicHolidays)
-        {
-            int businessDays = fromDate.RemainingWeekDays(endDate, false);
-            // subtract the number of bank holidays during the time interval
-            foreach (DateTime holiday in publicHolidays)
-            {
-                if (fromDate < holiday.Date && holiday.Date < endDate) businessDays--;
-            }
-
-            return businessDays;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fromDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="dynamicPublicHolidays"></param>
-        /// <returns></returns>
         public static int RemainingBusinessDays(this DateTime fromDate, DateTime endDate, 
-            IEnumerable<IDynamicHoliday> dynamicPublicHolidays)
+            IEnumerable<IHoliday> publicHolidays)
         {
             int businessDays = fromDate.RemainingWeekDays(endDate, false);
             // subtract the number of bank holidays during the time interval
-            foreach (var holiday in dynamicPublicHolidays) // flatten
+            foreach (var holiday in publicHolidays) // flatten
             {
-                if (fromDate < holiday.ActualDate.Date && holiday.ActualDate.Date < endDate)
+                if (fromDate < holiday.Date.Date && holiday.Date.Date < endDate)
                 {
                     businessDays--;
                 }
