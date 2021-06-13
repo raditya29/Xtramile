@@ -36,14 +36,14 @@ namespace Xtramile.DotNetTime
             int firstDayOfWeek = (int)fromDate.DayOfWeek;
             int lastDayOfWeek = ((int)endDate.DayOfWeek > firstDayOfWeek) ? (int)endDate.DayOfWeek : (int)endDate.DayOfWeek + 7; // if smaller than firstDayOfWeek we should add 7 days
             int firstToLastDayCount = lastDayOfWeek - firstDayOfWeek;
-            if ((firstDayOfWeek < (int)DayOfWeek.Saturday) && ((int)DayOfWeek.Saturday) <= lastDayOfWeek) firstToLastDayCount--; // subtract saturday (6th day)
-            if (firstDayOfWeek < 7 && 7 <= lastDayOfWeek) firstToLastDayCount--; // subtract sunday (7th day)
+            if ((firstDayOfWeek < (int)DayOfWeek.Saturday) && ((int)DayOfWeek.Saturday) <= lastDayOfWeek) firstToLastDayCount--; // subtract saturday (7th day)
+            if (firstDayOfWeek < 7 && 7 <= lastDayOfWeek) firstToLastDayCount--; // subtract sunday (8th day)
             
             return fullWeekCount * 5 + firstToLastDayCount;
         }
 
         /// <summary>
-        /// 
+        ///  
         /// </summary>
         /// <param name="fromDate"></param>
         /// <param name="endDate"></param>
@@ -56,7 +56,8 @@ namespace Xtramile.DotNetTime
             // subtract the number of bank holidays during the time interval
             foreach (var holiday in publicHolidays) // flatten
             {
-                if (fromDate < holiday.Date.Date && holiday.Date.Date < endDate)
+                if (fromDate < holiday.Date.Date && holiday.Date.Date < endDate 
+                    && IsWeekDay(holiday.Date.DayOfWeek))
                 {
                     businessDays--;
                 }
